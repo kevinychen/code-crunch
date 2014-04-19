@@ -1,0 +1,76 @@
+<html>
+    <head>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script type="text/javascript" src="javascripts/coolclock.js"></script>
+        <script type="text/javascript" src="javascripts/moreskins.js"></script>
+        <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+    </head>
+    <body>
+      <div class="sidebar">
+        <div class="logo">
+        </div>
+        <div class="navbar">
+        <div class="round">
+          Speed Round
+        </div>
+        <div class="problemlist">
+          <ul>
+            <li class="button">Problem 1</li>
+            <li class="button">Problem 2</li>
+            <li class="button">Problem 3</li>
+            <li class="button">Problem 4</li>
+          </ul>
+        </div>
+      </div>
+      </div>
+      <div class="content">
+        <div class="roundinfo">
+          <div class="probleminfo">
+            <div class="problemname">
+              PROBLEM 1
+            </div>
+            <div class="problemdescription">
+              Given two integers, output their sum. <br/>
+              <br/>
+              Sample input: <br/>
+              2 2 <br/>
+              <br/>
+              Sample output: <br/>
+              4 <br/>
+            </div>
+          </div>
+          <div class="iconpanel">
+            <div class="clockcontainer">
+              <canvas class="CoolClock:Tes2:100 clock"></canvas>
+            </div>
+            <div class="miscinfo">
+              2:37
+            </div>
+          </div>
+        </div>
+        <div class="main">
+          <div id="editor" contenteditable>
+          </div>
+          <div class="submitarea">
+            <div class="submitbar">
+              <ul>
+                <li class="buttonpressed">Java</li>
+                <li class="button">C++</li>
+                <li class="button">Python</li>
+              </ul>
+              <div class="submit button">Submit</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="navnext">
+        <div class="next button">NEXT&#8594;</div>
+      </div>
+    </body>
+    <script>
+      $(document).ready(function() {
+        window.setInterval(function() {
+        }, 3000);
+      });
+    </script>
+</html>
