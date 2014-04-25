@@ -1,5 +1,5 @@
 {
-  "name": "Code Potpourri",
+  "name": "Code_Potpourri",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -9,6 +9,7 @@
     "ejs": "*",
     "express": "3.4.0",
     "passport": "*",
-    "passport-local": "*"
+    "passport-local": "*",
+    "socket.io": "*"
   }
 }

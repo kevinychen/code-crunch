@@ -8,6 +8,7 @@ var http = require('http');
 var passport = require('passport');
 var path = require('path');
 var routes = require('./routes');
+var socketio = require('./socketio');
 
 var app = express();
 
@@ -58,6 +59,12 @@ app.get('/round3', routes.round3);
 app.get('/round4', routes.round4);
 app.get('/round5', routes.round5);
 
-http.createServer(app).listen(app.get('port'), function(){
+/*
+ * Socket.IO
+ */
+app.get('/send', socketio.send);
+
+var server = http.createServer(app).listen(app.get('port'), function(){
     console.log("Express server listening on port " + app.get('port'));
 });
+socketio.setServer(server);
