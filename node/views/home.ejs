@@ -68,10 +68,11 @@
           endTime = new Date(new Date().valueOf() + data.time * 1000);
         });
         socket.on('startRound', function (data) {
-          if (data.round == 1) {
+          if (data.round >= 1) {
             $('.navnext').show();
           }
         });
+        socket.emit('round', {});
       });
     </script>
 </html>

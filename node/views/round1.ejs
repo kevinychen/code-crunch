@@ -1,6 +1,7 @@
 <html>
     <head>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script>endTime = 0;</script>
         <script type="text/javascript" src="javascripts/coolclock.js"></script>
         <script type="text/javascript" src="javascripts/moreskins.js"></script>
         <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
@@ -11,10 +12,9 @@
         </div>
         <div class="navbar">
         <div class="round">
-          Speed Round
         </div>
         <div class="problemlist">
-          <ul>
+          <ul id="problems">
           </ul>
         </div>
       </div>
@@ -67,11 +67,31 @@
           lang = $(this).text();
         });
         var socket = io.connect('http://localhost:8080');
+        socket.on('preRound', function(data) {
+          endTime = new Date(new Date().valueOf() + data.time * 1000);
+        });
         socket.on('startRound', function (data) {
-          if (data.round == 2) {
+          if (data.round >= 2) {
             $('.navnext').show();
           }
         });
+        socket.on('roundInfo', function(data) {
+          $('.round').text(data.roundName);
+          var html = '';
+          for (var i = 0; i < data.problems.length; i++) {
+            html += '<li id="pselect' + i + '" class="pselect button">' +
+            data.problems[i].name + '</li>';
+          }
+          $('#problems').html(html);
+          $('.pselect').on('mousedown', function(e) {
+            var id = e.target.id;
+            var index = parseInt(id.charAt(id.length - 1));  // lol, assume 1 digit
+            $('.problemname').text(data.problems[index].name);
+            $('.problemdescription').text(data.problems[index].description);
+          });
+        });
+        socket.emit('round', {});
+        socket.emit('roundInfo', {round: 1});
       });
     </script>
 </html>
