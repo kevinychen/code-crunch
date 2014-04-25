@@ -31,7 +31,6 @@
               <canvas class="CoolClock:Tes2:100 clock"></canvas>
             </div>
             <div class="miscinfo">
-              2:37
             </div>
           </div>
         </div>
@@ -63,6 +62,12 @@
           $(this).attr('class', 'lang buttonpressed');
           lang = $(this).text();
         });
+        window.setInterval(function() {
+          var diff = Math.max(0, endTime - new Date());
+          var min = Math.floor(diff / 60000);
+          var sec = ('00' + (Math.floor(diff / 1000) % 60)).slice(-2);
+          $('.miscinfo').text(min + ':' + sec);
+        }, 1000);
         var socket = io.connect('http://localhost:8080');
         socket.on('preRound', function(data) {
           endTime = new Date(new Date().valueOf() + data.time * 1000);

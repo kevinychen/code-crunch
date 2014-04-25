@@ -19,6 +19,7 @@ exports.setServer = function(server) {
   thisio.sockets.on('connection', function(socket) {
     socket.on('round', function(data) {
       // return which round we are on
+      socket.emit('preRound', {round: 2, time: 60});
       socket.emit('startRound', {round: 1});
     });
   });

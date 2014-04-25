@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  </head>
+  <body>
+    Specify how long to wait until the next round. <br/>
+    Round: <input id="preround-round" type="text" /> <br/>
+    Time: <input id="preround-time" type="text" /> <br/>
+    <input id="preround-submit" type="button" value="Go" />
+  </body>
+  <script>
+    $(document).ready(function() {
+      $('#preround-submit').on('click', function() {
+        $.post('/preRound', {
+          round: $('#preround-round').val(),
+          time: $('#preround-time').val()
+        });
+      });
+    });
+  </script>
+</html>

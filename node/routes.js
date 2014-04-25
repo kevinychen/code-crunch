@@ -45,6 +45,11 @@ exports.home = function(req, res) {
   res.render('home.ejs', {user: req.user});
 };
 
+exports.controlpanel = function(req, res) {
+  // TODO only allow admin access
+  res.render('controlpanel.ejs');
+};
+
 exports.round1 = function(req, res) {
   res.render('round1.ejs', {user: req.user});
 };
