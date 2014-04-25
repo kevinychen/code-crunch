@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="stylesheets/login.css">
+    </head>
+    <body>
+        <div class="container">
+            <form method="post" action="/register">
+                <a href="/login"><img src="/images/logo.png" alt=""></a>
+                <h1>Register</h1>
+                <p><%= error %></p>
+                <table>
+                    <tr>
+                        <td>Username:</td>
+                        <td><input type="text" class="username" name="username"/></td>
+                    </tr>
+                    <tr>
+                        <td>Password:</td>
+                        <td><input type="password" name="password"></td>
+                    </tr>
+                    <tr>
+                        <td>Confirm:</td>
+                        <td><input type="password" name="confirmpassword"></td>
+                    </tr>
+                </table>
+                <input type="submit" class="button" value="register">
+            </form>
+            <p><a href="/login">Back to login...</a></p>
+        </div>
+        <script>
+            $(".username").focus();
+        </script>
+    </body>
+</html>
+

@@ -1,0 +1,60 @@
+@font-face {
+    font-family: MuseoSans;
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/museosans.woff') format('woff');
+}
+
+@font-face {
+    font-family: Balthazar;
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/balthazar.woff') format('woff');
+}
+
+body {
+    padding: 40px;
+    background: url('../images/background.png') repeat-x left top;
+    background-color: #ffcc33;
+}
+
+.container {
+    position: absolute;
+    left: 50%;
+    top: 35%;
+    border: 1px solid #ddd;
+    width: 300px;
+    height: 460px;
+    margin: -150px 0 0 -150px;
+    text-align: center;
+    background: url('../images/background.png') repeat-x left top;
+    font-family: MuseoSans;
+    -webkit-box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+.container h1 {
+    margin: 0px;
+    padding: 20px;
+    font-size: 32px;
+}
+
+.container h5 {
+    margin: 0px;
+    padding: 10px;
+    font-size: 18px;
+}
+
+.container img {
+    width: 300px;
+}
+
+.container table {
+    text-align: center;
+    margin: 0 auto;
+}
+
+.container td {
+    padding: 4px;
+}
+

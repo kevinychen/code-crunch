@@ -2,7 +2,7 @@
     font-family: MuseoSans;
     font-style: normal;
     font-weight: 400;
-    src: url('/home/kyc/Code/ple/www/museosans.woff') format('woff');
+    src: url('../fonts/museosans.woff') format('woff');
 }
 
 body {

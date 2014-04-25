@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="stylesheets/login.css">
+    </head>
+    <body>
+        <div class="container">
+            <form method="post" action="/login">
+                <a href="/login"><img src="/images/logo.png" alt=""></a>
+                <h1>Code Crunch</h1>
+                <table>
+                    <tr>
+                        <td>Username:</td>
+                        <td><input type="text" class="username" name="username"/></td>
+                    </tr>
+                    <tr>
+                        <td>Password:</td>
+                        <td><input type="password" name="password"></td>
+                    </tr>
+                </table>
+                <input type="submit" class="button" value="login">
+            </form>
+            <p>register <a href="/register" class="button">here</a></p>
+            <p>or <a href="/rules" class="button">read the rules...</a></p>
+        </div>
+        <script>
+            $(".username").focus();
+        </script>
+    </body>
+</html>
