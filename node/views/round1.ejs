@@ -53,7 +53,7 @@
       <div class="navprev">
         <div class="next button"><a href="/home">&#8592;Home</a></div>
       </div>
-      <div class="navnext">
+      <div class="navnext" style="display: none;">
         <div class="next button"><a href="/round2">NEXT&#8594;</a></div>
       </div>
     </body>
@@ -67,11 +67,11 @@
           lang = $(this).text();
         });
         var socket = io.connect('http://localhost:8080');
-        socket.on('news', function (data) {
-          console.log(data);
+        socket.on('startRound', function (data) {
+          if (data.round == 2) {
+            $('.navnext').show();
+          }
         });
-        window.setInterval(function() {
-        }, 3000);
       });
     </script>
 </html>

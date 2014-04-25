@@ -1,6 +1,7 @@
 <html>
     <head>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script>endTime = 0;</script>
         <script type="text/javascript" src="javascripts/coolclock.js"></script>
         <script type="text/javascript" src="javascripts/moreskins.js"></script>
         <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
@@ -49,10 +50,11 @@
           </div>
         </div>
       </div>
-      <div class="navnext">
+      <div class="navnext" style="display: none;">
         <div class="next button"><a href="/round1">NEXT&#8594;</a></div>
       </div>
     </body>
+    <script src="/socket.io/socket.io.js"></script>
     <script>
       lang = 'Java';
       $(document).ready(function() {
@@ -61,8 +63,15 @@
           $(this).attr('class', 'lang buttonpressed');
           lang = $(this).text();
         });
-        window.setInterval(function() {
-        }, 3000);
+        var socket = io.connect('http://localhost:8080');
+        socket.on('preRound', function(data) {
+          endTime = new Date(new Date().valueOf() + data.time * 1000);
+        });
+        socket.on('startRound', function (data) {
+          if (data.round == 1) {
+            $('.navnext').show();
+          }
+        });
       });
     </script>
 </html>

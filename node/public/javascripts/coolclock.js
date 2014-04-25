@@ -255,7 +255,8 @@ CoolClock.prototype = {
 
 	// Check the time and display the clock
 	refreshDisplay: function() {
-		var now = new Date();
+		var zero = new Date(0, 0, 0, 0, 0, 0);
+                var now = new Date(zero.valueOf() - Math.max(0, endTime - new Date().valueOf()));
 		if (this.gmtOffset != null) {
 			// Use GMT + gmtOffset
 			var offsetNow = new Date(now.valueOf() + (this.gmtOffset * 1000 * 60 * 60));

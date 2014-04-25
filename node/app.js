@@ -62,7 +62,8 @@ app.get('/round5', routes.round5);
 /*
  * Socket.IO
  */
-app.get('/send', socketio.send);
+app.get('/preRound', socketio.preRound);
+app.get('/startRound', socketio.startRound);
 
 var server = http.createServer(app).listen(app.get('port'), function(){
     console.log("Express server listening on port " + app.get('port'));
