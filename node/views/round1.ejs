@@ -86,8 +86,8 @@
           $('.pselect').on('mousedown', function(e) {
             var id = e.target.id;
             var index = parseInt(id.charAt(id.length - 1));  // lol, assume 1 digit
-            $('.problemname').text(data.problems[index].name);
-            $('.problemdescription').text(data.problems[index].description);
+            $('.problemname').html(data.problems[index].name);
+            $('.problemdescription').html(data.problems[index].description);
           });
         });
         socket.emit('round', {});

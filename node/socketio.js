@@ -32,7 +32,7 @@ exports.setServer = function(server) {
           description: 'Add two numbers.'
         }, {
           name: 'Hard',
-          description: 'Guess the number I\'m thinking.\nIt could be any number.'
+          description: 'Guess the number I\'m thinking.<br/>It could be any number.'
         }]
       });
     });
