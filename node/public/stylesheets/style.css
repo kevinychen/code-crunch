@@ -134,6 +134,12 @@ body {
   text-align: center;
 }
 
+.navprev {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+}
+
 .navnext {
   position: fixed;
   bottom: 20px;
@@ -142,6 +148,7 @@ body {
 
 .next {
   min-width: 80px;
+  max-width: 100px;
   font-size: 24px;
   text-align: center;
 }
