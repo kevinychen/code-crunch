@@ -1,0 +1,68 @@
+<html>
+    <head>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script type="text/javascript" src="javascripts/coolclock.js"></script>
+        <script type="text/javascript" src="javascripts/moreskins.js"></script>
+        <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+    </head>
+    <body>
+      <div class="sidebar">
+        <div class="logo">
+        </div>
+        <div class="navbar">
+        <div class="round">
+          CODE CRUNCH
+        </div>
+      </div>
+      </div>
+      <div class="content">
+        <div class="roundinfo">
+          <div class="probleminfo">
+            <div class="problemname">
+              WELCOME, <%= user.name %>!
+            </div>
+            <div class="problemdescription">
+              When the contest begins, press the "Next" button to continue.
+            </div>
+          </div>
+          <div class="iconpanel">
+            <div class="clockcontainer">
+              <canvas class="CoolClock:Tes2:100 clock"></canvas>
+            </div>
+            <div class="miscinfo">
+              2:37
+            </div>
+          </div>
+        </div>
+        <div class="main">
+          <div id="editor" contenteditable>
+            You will be able to edit here in each round. Play around if you like.
+          </div>
+          <div class="submitarea">
+            <div class="submitbar">
+              <ul>
+                <li class="lang buttonpressed">Java</li>
+                <li class="lang button">C++</li>
+                <li class="lang button">Python</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="navnext">
+        <div class="next button"><a href="/round1">NEXT&#8594;</a></div>
+      </div>
+    </body>
+    <script>
+      lang = 'Java';
+      $(document).ready(function() {
+        $('.lang').on('mousedown', function() {
+          $('.lang').attr('class', 'lang button');
+          $(this).attr('class', 'lang buttonpressed');
+          lang = $(this).text();
+        });
+        window.setInterval(function() {
+        }, 3000);
+      });
+    </script>
+</html>

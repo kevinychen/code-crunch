@@ -27,6 +27,8 @@ exports.validateRegistration = function(username, password, callback) {
 // callback(error, [user object])
 exports.getUser = function(username, callback) {
   // TODO
+  callback(false, {name: 'kyc', password: 'code'});
+  return;
   callback('No user found.');
 };
 
