@@ -255,17 +255,20 @@ CoolClock.prototype = {
 
 	// Check the time and display the clock
 	refreshDisplay: function() {
-		var zero = new Date(0, 0, 0, 0, 0, 0);
-                var now = new Date(zero.valueOf() - Math.max(0, endTime - new Date().valueOf()));
-		if (this.gmtOffset != null) {
-			// Use GMT + gmtOffset
-			var offsetNow = new Date(now.valueOf() + (this.gmtOffset * 1000 * 60 * 60));
-			this.render(offsetNow.getUTCHours(),offsetNow.getUTCMinutes(),offsetNow.getUTCSeconds());
-		}
-		else {
-			// Use local time
-			this.render(now.getHours(),now.getMinutes(),now.getSeconds());
-		}
+          var zero = new Date(0, 0, 0, 0, 0, 0);
+          var now = new Date();
+          var timenow = new Date(0, 0, 0, now.getHours(), now.getMinutes(), now.getSeconds());
+          var diff = Math.max(0, endTime - timenow);
+          now = new Date(zero.valueOf() - diff);
+          if (this.gmtOffset != null) {
+            // Use GMT + gmtOffset
+            var offsetNow = new Date(now.valueOf() + (this.gmtOffset * 1000 * 60 * 60));
+            this.render(offsetNow.getUTCHours(),offsetNow.getUTCMinutes(),offsetNow.getUTCSeconds());
+          }
+          else {
+            // Use local time
+            this.render(now.getHours(),now.getMinutes(),now.getSeconds());
+          }
 	},
 
 	// Set timeout to trigger a tick in the future
