@@ -1,0 +1,32 @@
+Bob has a lot of meetings. He gets paid for each meeting that he goes to. Unfortunately, he can only
+be in one place at any given time and needs to be present for an entire meeting. Except, he has permission to merge 
+a pair of overlapping meetings while still getting paid for both meetings. What is the maximum number of meetings Bob can
+attend?
+
+For simplicity, pretend that time is represented by nonnegative integers.
+
+Meetings are overlapping if the start of one meeting comes before the start of another meeting.
+(1,2) and (2,4) are not overlapping.
+
+Input Format:
+N - number of meetings (< 100)
+s_1 e_1 (integers, start time and end time, s_i < e_i)
+s_2 e_2
+...
+s_N e_N
+
+Output Format:
+maximum number of meetings
+
+Example:
+
+Input:
+5
+1 7
+3 8
+9 12
+6 18
+15 19
+
+Output:
+4

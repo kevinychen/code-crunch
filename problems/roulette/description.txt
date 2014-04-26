@@ -1,0 +1,40 @@
+As the semester winds down, you and your friends decide to play the most infamous game in Next House: Nerf Gun Roulette.
+Surprisingly, there are Nerf revolvers with up to N chambers. Your friend loads come of the chambers, shows them to you
+and then spins the barrel. He puts the gun to his head and pulls the trigger. Click. It was an empty chamber.
+
+Now it's your turn, given the distribution of loaded chambers do you: 1) Shoot right away 2) Randomize again 3) Do either,
+since your chances are the same.
+
+The state of the chambers are given as a string, 0 for unloaded, 1 for loaded. Remember that your friend spun the revolver after
+showing it to you, but didn't touch any further after pulling the trigger on himself. After the trigger is pulled, the next chamber to
+the right is moved into place (or it wraps around).
+
+Input Format:
+00011... (3 empty and 2 loaded in the front, forms a ring) (length < 100)
+
+Output Format:
+Either "shoot", "rotate", or "either"
+
+Example:
+
+Input:
+00011
+
+Output:
+shoot
+
+--
+
+Input:
+0011
+
+Output:
+either
+
+--
+
+Input:
+0111
+
+Output:
+rotate
