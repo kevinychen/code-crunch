@@ -63,6 +63,7 @@ function checkPatents() {
         patents.push(lines[i].replace('\\n', '\n'));
       }
     }
+    model.setInvalids(patents);
     emitAll('patentinvalid', patents);
     setTimeout(checkPatents, 5000);
   });

@@ -68,9 +68,17 @@ exports.judge = function(params, callback) {
             callback('Error incrementing submission counter');
           } else {
             params.submissionID = submissionID;
-            prepare();
+            preprocess();
           }
         });
+  }, preprocess = function() {
+    model.process(params, function(err) {
+      if (err) {
+        callback(err);
+      } else {
+        prepare();
+      }
+    });
   }, prepare = function() {
     tester.prepare(params.submissionID, params.language,
         params.data, function(err) {

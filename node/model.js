@@ -160,3 +160,33 @@ exports.solveProblem = function(user, problem, callback) {
     }
   });
 };
+
+/*
+ * Custom round functions
+ */
+
+// Invalid substrings for Code Patent
+var invalids = [];
+exports.setInvalids = function(patents) {
+  invalids = patents;
+}
+
+// callback(error)
+exports.process = function(params, callback) {
+  // Code Golf: set up score
+  if (params.problem.round == 2) {
+    params.problem.score -= params.data.length;
+  }
+
+  // Code Patent: check validation
+  if (params.problem.round == 3) {
+    for (var i = 0; i < invalids.length; i++) {
+      if (invalids[i] && params.data.indexOf(invalids[i]) >= 0) {
+        callback('Invalid: used patented substrings');
+        return;
+      }
+    }
+  }
+
+  callback();
+};
