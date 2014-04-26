@@ -57,6 +57,7 @@ app.get('/controlpanel', routes.controlpanel);
 
 app.get('/round', routes.round);
 app.post('/submit', routes.submit);
+app.post('/twitch', routes.twitch);
 
 var server = http.createServer(app).listen(app.get('port'), function(){
     console.log("Express server listening on port " + app.get('port'));

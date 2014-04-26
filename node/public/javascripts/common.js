@@ -1,4 +1,4 @@
-index = -1;  // problem index
+index = 0;  // problem index
 lang = '';
 cache = [];  // store problem index -> cached info (submission, results)
 var editor;
@@ -7,6 +7,9 @@ invalids = [];  // invalid strings for code patent
 var javaString = "import java.util.*;\nimport java.io.*;\n\npublic class Main {\n\npublic static void main (String[] args) throws IOException {\n//your code here\n}\n}";
 var cppString = "#include <stdio.h>\n#include <stdlib.h>\n#include <iostream>\n#include <math.h>\n#include <string.h>\n#include <algorithm>\n#include <vector>\n\nusing namespace std;\n\nint main() {\n\n//your code here\n\n}";
 var pythonString = "#no boilerplate, your code goes here";
+
+// Socket communication
+var socket = io.connect('http://localhost:8080');
 
 function toggle(i, language) {
   // Toggle editor
@@ -36,6 +39,11 @@ function toggle(i, language) {
 
   // Recover new state
   $('.problemresults').html(cache[index].result || '');
+
+  // Ask for server state info
+  if (round == 5) {
+    socket.emit('twitch', {index: index});
+  }
 }
 
 $(document).ready(function() {
@@ -50,24 +58,6 @@ $(document).ready(function() {
     $('.lang').attr('class', 'lang button');
     $(this).attr('class', 'lang buttonpressed');
     toggle(index, $(this).text());
-  });
-
-  // Submit problem
-  $('.submit').on('click', function() {
-    var data = editor.getSession().getValue();
-    $('.problemresults').html('Grading submission...');
-    // If Code Roulette, sync right before submitting
-    // (server double checks this anyway)
-    if (round === 4) {
-      socket.emit('roulette', {
-        user: user,
-        entry: editor.getSession().getValue()
-      });
-    }
-    $.post('/submit', {round: round, index: index, data: data, lang: lang},
-      function(data) {
-        $('.problemresults').html(data);
-      });
   });
 
   // Display time remaining
@@ -98,8 +88,6 @@ $(document).ready(function() {
     }
   }, 1000);
 
-  // Socket communication
-  var socket = io.connect('http://localhost:8080');
   socket.on('preRound', function(data) {
     data[round + 1] = data[round + 1] || '23:59';
     var parts = data[round + 1].split(':');
@@ -197,11 +185,41 @@ $(document).ready(function() {
     $('#proposal').focus();
     $('#proposal').on('keypress', function(e) {
       if (e.which == 13) {
-        console.log("submitting " + $(this).val());
+        $('.problemresults').html('Processing entry...');
+        // Post twitch proposal
+        $.post('/twitch', {user: user, index: index, entry: $(this).val()},
+          function(data) {
+            $('.problemresults').html(data);
+            $('#proposal').val('');
+          });
       }
     });
     toggle(index, 'Python');
+    socket.on('twitchtext', function(data) {
+      if (index == data.index) {
+        editor.setValue(data.data);
+      }
+    });
+    socket.emit('twitch', {index: index});
   }
+
+  // Submit problem
+  $('.submit').on('click', function() {
+    var data = editor.getSession().getValue();
+    $('.problemresults').html('Grading submission...');
+    // If Code Roulette, sync right before submitting
+    // (server double checks this anyway)
+    if (round === 4) {
+      socket.emit('roulette', {
+        user: user,
+        entry: editor.getSession().getValue()
+      });
+    }
+    $.post('/submit', {round: round, index: index, data: data, lang: lang},
+      function(data) {
+        $('.problemresults').html(data);
+      });
+  });
 
   // Request server for round information
   socket.emit('round', {});

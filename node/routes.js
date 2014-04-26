@@ -62,6 +62,57 @@ exports.submit = function(req, res) {
   });
 };
 
+var twitching = false;
+exports.twitch = function(req, res) {
+  var entry = req.body.entry;
+  if (entry.indexOf('print') > -1) {
+    res.json('Print statements are not allowed.');
+    return;
+  }
+  entry.replace('\n', '');
+
+  var syncBlock = function() {
+    twitching = true;  // take lock
+    model.getTwitch(req.body.index, function(err, data) {
+      entire = data + entry + '\n';
+      if (entry.slice(-1) == ':' || entry.slice(-1) == '\\') {
+        entire += Array(80).join(' ') + 'pass\n';
+      }
+      entire += 'print ans';
+      judge({
+        user: req.user,
+        problemId: '5-1',
+        data: entire,
+        language: 'Python'
+      }, function(err) {
+        if (err && err !== 'Incorrect output') {
+          twitching = false;
+          res.json(err);
+        } else {
+          if (err) {
+            res.json('Line accepted.');
+          } else {
+            res.json('Congratulations! You have solved the problem.');
+          }
+          model.addTwitch(req.body.index, req.body.user, entry, function() {
+            twitching = false;  // release lock
+          });
+        }
+      });
+    });
+  };
+
+  var waiting = function() {
+    if (twitching) {
+      setTimeout(waiting, 1000);
+    } else {
+      syncBlock();
+    }
+  };
+
+  waiting();
+};
+
 exports.round = function(req, res) {
   res.render('round.ejs', {user: req.user, round: parseInt(req.query.round)});
 };

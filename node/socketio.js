@@ -61,6 +61,19 @@ exports.setServer = function(server) {
         });
     });
   });
+  thisio.sockets.on('connection', function(socket) {
+    socket.on('twitch', function(data) {
+      model.getTwitch(data.index, function(err, file) {
+        socket.emit('twitchtext', {index: data.index, data: file});
+      });
+    });
+  });
+
+  model.setTwitchBroadcastFunction(function(index) {
+    model.getTwitch(index, function(err, file) {
+      emitAll('twitchtext', {index: index, data: file});
+    });
+  });
 };
 
 model.setShowtimesListener(function(error, showtimes) {
