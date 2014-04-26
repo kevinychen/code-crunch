@@ -35,7 +35,9 @@ function toggle(i, language) {
 
   // Change index
   $('.problemname').html(cache[index].name);
-  $('.problemdescription').html(cache[index].description);
+  var description = cache[index].description || '';
+  $('.problemdescription').html(description
+      .replace(/[\n]/g, '<br/>').replace(/\\n/g, '<br/>'));
 
   // Recover new state
   $('.problemresults').html(cache[index].result || '');
