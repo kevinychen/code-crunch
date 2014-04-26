@@ -1,0 +1,23 @@
+Bob has been given a number, N. Bob is not satisfied with N and wants to try to make it bigger.
+He can do so by rotating the number left or right, but he must rotate the number at least once.
+Oh, and any leading zeroes at any stage must be removed.
+
+What's the biggest number Bob can generate?
+
+N <= 1,000,000,000
+
+Input:
+12345
+
+Output:
+51234
+
+--
+
+Input:
+80
+
+Output:
+8
+
+(Bob must do at least one rotation)

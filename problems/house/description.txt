@@ -1,0 +1,25 @@
+There's no place like home. This applies to palindromes too! We all want to see homey palindromes, so
+take the following string and convert it into a palindrome containing "house". You can replace
+any letter, but try to minimize the number of replacements. If it's impossible, print "impossible".
+
+Otherwise, print the homey palindrome and the number of replacements, separated by a space.
+
+The string will be less than 100 characters long
+
+Input:
+
+houselice
+
+Output:
+
+housesuoh 4
+
+---
+
+Input:
+
+aaaaaaaa
+
+Output:
+
+impossible

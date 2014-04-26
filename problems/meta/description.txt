@@ -1,0 +1,13 @@
+This problem is meta. First parameter is T. There are T test cases, each with T lines. For each test case, print yes if you
+decide to print it, no otherwise. Final thing, you have to stay true to your word.
+
+Input:
+2
+no
+no
+no
+yes
+
+output:
+no
+yes
