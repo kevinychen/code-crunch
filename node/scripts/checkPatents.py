@@ -10,7 +10,7 @@ N = 10
 
 # whitelisted substrings
 whitelist = [
-  '#include <[^<>]>',
+  '#include <[^<>]+>',
   'using namespace std;',
   'int main\(\) {',
   'import java\.[A-Za-z]+\.\*;',
@@ -36,6 +36,7 @@ for file in glob.glob('submissions/t_*'):
     data = fh.read()
     for s in whitelist:
       data = re.sub(s, r'', data)
+    data = re.sub(r'\s', r'', data)
     for i in xrange(len(data) - N):
       s = data[i:i+N]
       if s in invalids:
