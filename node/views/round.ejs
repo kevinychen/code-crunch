@@ -1,7 +1,7 @@
 <html>
     <head>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script>endTime = 0; round = 1;</script>
+        <script>endTime = 0; round = <%= round %>;</script>
         <script type="text/javascript" src="javascripts/coolclock.js"></script>
         <script type="text/javascript" src="javascripts/moreskins.js"></script>
         <script src="javascripts/ace-build/src-noconflict/ace.js"></script>
@@ -13,6 +13,7 @@
         </div>
         <div class="navbar">
         <div class="round">
+          CODE CRUNCH
         </div>
         <div class="problemlist">
           <ul id="problems">
@@ -24,8 +25,14 @@
         <div class="roundinfo">
           <div class="probleminfo">
             <div class="problemname">
+              WELCOME, <%= user.name %>!
             </div>
             <div class="problemdescription">
+              <% if (round === 0) { %>
+              When the contest begins, press the "Next" button to continue.<br/>
+              <br/>
+              For now, feel free to play around with the editor below.
+              <% } %>
             </div>
             <div class="problemresults">
             </div>
@@ -48,19 +55,24 @@
                 <li class="lang button">C++</li>
                 <li class="lang button">Python</li>
               </ul>
+              <% if (round !== 0) { %>
               <div class="submit button">Submit</div>
+              <% } %>
             </div>
           </div>
         </div>
       </div>
+      <% if (round !== 0) { %>
       <div class="navprev">
-        <div class="next button"><a href="/home">&#8592;Home</a></div>
+        <div class="next button"><a href="/round?round=<%= round-1 %>">&#8592;Prev</a></div>
       </div>
+      <% } %>
       <div class="navnext" style="display: none;">
-        <div class="next button"><a href="/round2">NEXT&#8594;</a></div>
+        <div class="next button"><a href="/round?round=<%= round+1 %>">NEXT&#8594;</a></div>
       </div>
     </body>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/javascripts/common.js"></script>>
+    <script src="/javascripts/common.js"></script>
     </script>
 </html>
+

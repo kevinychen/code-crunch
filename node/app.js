@@ -55,12 +55,7 @@ app.get('/home', routes.home);
 
 app.get('/controlpanel', routes.controlpanel);
 
-app.get('/round1', routes.round1);
-app.get('/round2', routes.round2);
-app.get('/round3', routes.round3);
-app.get('/round4', routes.round4);
-app.get('/round5', routes.round5);
-
+app.get('/round', routes.round);
 app.post('/submit', routes.submit);
 
 /*

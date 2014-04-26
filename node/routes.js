@@ -43,7 +43,7 @@ exports.rules = function(req, res) {
 };
 
 exports.home = function(req, res) {
-  res.render('home.ejs', {user: req.user});
+  res.render('round.ejs', {user: req.user, round: 0});
 };
 
 exports.controlpanel = function(req, res) {
@@ -62,23 +62,7 @@ exports.submit = function(req, res) {
   });
 };
 
-exports.round1 = function(req, res) {
-  res.render('round1.ejs', {user: req.user});
-};
-
-exports.round2 = function(req, res) {
-  res.render('round2.ejs', {user: req.user});
-};
-
-exports.round3 = function(req, res) {
-  res.render('round3.ejs', {user: req.user});
-};
-
-exports.round4 = function(req, res) {
-  res.render('round4.ejs', {user: req.user});
-};
-
-exports.round5 = function(req, res) {
-  res.render('round5.ejs', {user: req.user});
+exports.round = function(req, res) {
+  res.render('round.ejs', {user: req.user, round: req.query.round});
 };
 
