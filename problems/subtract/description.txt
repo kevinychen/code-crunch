@@ -1,0 +1,26 @@
+There are N positive integers written on a chalkboard. Bob begins a tedious task:
+he finds two numbers that are unequal, subtracts the larger number from the smaller number, replaces
+the larger number with the result. Once all numbers are equal, he stops.
+
+Turns out, Bob always stops. Moreover, he always with the same value. What is this magical value
+on which the game ends?
+
+Input Format:
+N (number of numbers heh)
+a1
+a2
+...
+aN
+
+Output Format:
+Integer Answer
+
+
+Example:
+
+Input:
+3
+6 10 15
+
+Output:
+1
