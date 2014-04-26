@@ -1,7 +1,7 @@
 <html>
     <head>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script>endTime = 0;</script>
+        <script>endTime = 0; round = 0;</script>
         <script type="text/javascript" src="javascripts/coolclock.js"></script>
         <script type="text/javascript" src="javascripts/moreskins.js"></script>
         <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
@@ -54,30 +54,5 @@
       </div>
     </body>
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-      lang = 'Java';
-      $(document).ready(function() {
-        $('.lang').on('mousedown', function() {
-          $('.lang').attr('class', 'lang button');
-          $(this).attr('class', 'lang buttonpressed');
-          lang = $(this).text();
-        });
-        window.setInterval(function() {
-          var diff = Math.max(0, endTime - new Date());
-          var min = Math.floor(diff / 60000);
-          var sec = ('00' + (Math.floor(diff / 1000) % 60)).slice(-2);
-          $('.miscinfo').text(min + ':' + sec);
-        }, 1000);
-        var socket = io.connect('http://localhost:8080');
-        socket.on('preRound', function(data) {
-          endTime = new Date(new Date().valueOf() + data.time * 1000);
-        });
-        socket.on('startRound', function (data) {
-          if (data.round >= 1) {
-            $('.navnext').show();
-          }
-        });
-        socket.emit('round', {});
-      });
-    </script>
+    <script src="/javascripts/common.js"></script>
 </html>

@@ -19,7 +19,7 @@ exports.setServer = function(server) {
   thisio.sockets.on('connection', function(socket) {
     socket.on('round', function(data) {
       // return which round we are on
-      socket.emit('preRound', {round: 2, time: 60});
+      socket.emit('preRound', {round: 2, time: (new Date().valueOf() + 60000)});
       socket.emit('startRound', {round: 1});
     });
   });
@@ -27,6 +27,7 @@ exports.setServer = function(server) {
     socket.on('roundInfo', function(data) {
       // return round info
       socket.emit('roundInfo', {
+        round: 1,
         roundName: 'Speed Round',
         problems: [{
           name: 'Sum',
@@ -43,7 +44,7 @@ exports.setServer = function(server) {
 exports.preRound = function(req, res) {
   emitAll('preRound', {
     round: req.body.round || 1,
-    time: req.body.time || 60
+    time: req.body.time || (new Date().valueOf() + 60000)
   });
   res.end();
 };
