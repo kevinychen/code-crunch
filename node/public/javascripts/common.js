@@ -63,24 +63,29 @@ $(document).ready(function() {
 
   // Display time remaining
   window.setInterval(function() {
-    var diff = Math.max(0, endTime - new Date());
+    var now = new Date();
+    var timenow = new Date(0, 0, 0, now.getHours(), now.getMinutes(), now.getSeconds());
+    var diff = Math.max(0, endTime - timenow);
     if (diff === 0) {
       $('.navnext').show();
     }
-    var min = Math.floor(diff / 60000);
+    var min = Math.floor(diff / 60000) % 60;
     var sec = ('00' + (Math.floor(diff / 1000) % 60)).slice(-2);
     $('.miscinfo').text(min + ':' + sec);
+
+    // If Code Golf, show number of characters.
+    if (round === 2) {
+      var charCount = editor.getSession().getValue().length;
+      $('.golfcount').html('Characters: ' + charCount);
+    }
   }, 1000);
 
   // Socket communication
   var socket = io.connect('http://localhost:8080');
   socket.on('preRound', function(data) {
-    endTime = new Date(data.time);
-  });
-  socket.on('startRound', function (data) {
-    if (data.round > round) {
-      $('.navnext').show();
-    }
+    data[round + 1] = data[round + 1] || '23:59';
+    var parts = data[round + 1].split(':');
+    endTime = new Date(0, 0, 0, parts[0], parts[1], 0);
   });
   socket.on('roundInfo', function(data) {
     if (data.round !== round) {

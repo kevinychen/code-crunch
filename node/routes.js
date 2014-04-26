@@ -63,6 +63,6 @@ exports.submit = function(req, res) {
 };
 
 exports.round = function(req, res) {
-  res.render('round.ejs', {user: req.user, round: req.query.round});
+  res.render('round.ejs', {user: req.user, round: parseInt(req.query.round)});
 };
 

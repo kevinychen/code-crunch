@@ -72,12 +72,26 @@ exports.canView = function(user, page, params, callback) {
   }
 };
 
-// callback(error)
+// callback(isRunning)
 exports.isRunning = function(callback) {
   root.child('isRunning').once('value', function(isRunningSnapshot) {
     callback(isRunningSnapshot.val());
   });
 };
+
+// return times when each round will be open
+// callback(error, {1: '7:05', 2: '7:26', ...})
+exports.getShowtimes = function(callback) {
+  root.child('showtimes').once('value', function(showtimesSnapshot) {
+    callback(false, showtimesSnapshot.val());
+  });
+};
+
+exports.setShowtimesListener = function(callback) {
+  root.child('showtimes').on('value', function(showtimesSnapshot) {
+    callback(false, showtimesSnapshot.val());
+  });
+}
 
 // callback(error, [round object])
 exports.getRound = function(roundId, callback) {

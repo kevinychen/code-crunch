@@ -18,9 +18,9 @@ exports.setServer = function(server) {
 
   thisio.sockets.on('connection', function(socket) {
     socket.on('round', function(data) {
-      // return which round we are on
-      socket.emit('preRound', {round: 2, time: (new Date().valueOf() + 60000)});
-      socket.emit('startRound', {round: 1});
+      model.getShowtimes(function(error, showtimes) {
+        socket.emit('preRound', showtimes);
+      });
     });
   });
   thisio.sockets.on('connection', function(socket) {
@@ -42,16 +42,7 @@ exports.setServer = function(server) {
   });
 };
 
-exports.preRound = function(req, res) {
-  emitAll('preRound', {
-    round: req.body.round || 1,
-    time: req.body.time || (new Date().valueOf() + 60000)
-  });
-  res.end();
-};
-
-exports.startRound = function(req, res) {
-  emitAll('startRound', {round: req.body.round || 1});
-  res.end();
-};
+model.setShowtimesListener(function(error, showtimes) {
+  emitAll('preRound', showtimes);
+});
 
