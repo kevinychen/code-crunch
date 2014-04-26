@@ -2,6 +2,8 @@
  * socket.io API
  */
 
+var fs = require('fs');
+var exec = require('child_process').exec;
 var model = require('./model');
 
 thisio = '';
@@ -40,9 +42,29 @@ exports.setServer = function(server) {
       });
     });
   });
+  thisio.sockets.on('connection', function(socket) {
+    socket.on('patent', function(data) {
+      // Write to a file that a thread will constantly go through
+      fs.writeFile('submissions/t_' + data.user, data.entry);
+    });
+  });
 };
 
 model.setShowtimesListener(function(error, showtimes) {
   emitAll('preRound', showtimes);
 });
 
+function checkPatents() {
+  exec('python scripts/checkPatents.py', function(err, stdout, stderr) {
+    var lines = stdout.split('\n');
+    var patents = [];
+    for (var i = 0; i < lines.length; i++) {
+      if (lines[i]) {
+        patents.push(lines[i].replace('\\n', '\n'));
+      }
+    }
+    emitAll('patentinvalid', patents);
+    setTimeout(checkPatents, 5000);
+  });
+}
+checkPatents();

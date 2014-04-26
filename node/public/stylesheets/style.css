@@ -78,6 +78,13 @@ body {
   margin-top: 20px;
 }
 
+.patented {
+  font-family: MuseoSans;
+  font-size: 14px;
+  margin-top: 30px;
+  color: red;
+}
+
 .iconpanel {
   margin-left: 62%;
   padding: 10px;
@@ -196,4 +203,8 @@ body {
   background: #68edf9;
   background-image: -webkit-linear-gradient(top, rgba(156, 221, 234, 0), #8fc7b0);
   box-shadow: inset 0px 1px 0px 1px #1495b0, inset 0px 2px 1px 0px rgba(255, 255, 255, 0.75), 0px 1px 0px 0px #0f7b92;
+}
+
+.highlight {
+  background-color: red;
 }

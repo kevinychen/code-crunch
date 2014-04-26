@@ -2,6 +2,7 @@ index = -1;  // problem index
 lang = '';
 cache = [];  // store problem index -> cached info (submission, results)
 var editor;
+invalids = [];  // invalid strings for code patent
 
 var javaString = "import java.util.*;\nimport java.io.*;\n\npublic class Main {\n\npublic static void main (String[] args) throws IOException {\n//your code here\n}\n}";
 var cppString = "#include <stdio.h>\n#include <stdlib.h>\n#include <iostream>\n#include <math.h>\n#include <string.h>\n#include <algorithm>\n#include <vector>\n\nusing namespace std;\n\nint main() {\n\n//your code here\n\n}";
@@ -78,6 +79,15 @@ $(document).ready(function() {
       var charCount = editor.getSession().getValue().length;
       $('.golfcount').html('Characters: ' + charCount);
     }
+
+    // If Code Patent, show invalid patent substrings
+    if (round === 3) {
+      if (invalids.length > 0) {
+        $('.patented').text('PATENTED: [' + invalids + ']');
+      } else {
+        $('.patented').text('');
+      }
+    }
   }, 1000);
 
   // Socket communication
@@ -113,6 +123,19 @@ $(document).ready(function() {
       toggle(newIndex, lang);
     });
   });
+
+  // If Code Patent, listen for invalid substrings.
+  if (round == 3) {
+    window.setInterval(function() {
+      socket.emit('patent', {
+        user: user,
+        entry: editor.getSession().getValue()
+      });
+    }, 5000);
+    socket.on('patentinvalid', function(data) {
+      invalids = data;
+    });
+  }
 
   // Request server for round information
   socket.emit('round', {});
