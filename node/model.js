@@ -72,12 +72,26 @@ exports.canView = function(user, page, params, callback) {
   }
 };
 
-// callback(error)
+// callback(isRunning)
 exports.isRunning = function(callback) {
   root.child('isRunning').once('value', function(isRunningSnapshot) {
     callback(isRunningSnapshot.val());
   });
 };
+
+// return times when each round will be open
+// callback(error, {1: '7:05', 2: '7:26', ...})
+exports.getShowtimes = function(callback) {
+  root.child('showtimes').once('value', function(showtimesSnapshot) {
+    callback(false, showtimesSnapshot.val());
+  });
+};
+
+exports.setShowtimesListener = function(callback) {
+  root.child('showtimes').on('value', function(showtimesSnapshot) {
+    callback(false, showtimesSnapshot.val());
+  });
+}
 
 // callback(error, [round object])
 exports.getRound = function(roundId, callback) {
@@ -92,7 +106,6 @@ exports.getProblem = function(problemId, callback) {
   root.child('rounds/' + parts[0] + '/problems/' + parts[1]).once('value',
       function(problemSnapshot) {
         var problem = problemSnapshot.val();
-        problem.name = problemSnapshot.name();
         problem.round = parts[0];
         problem.id = parts[1];
         callback(false, problem);
@@ -109,7 +122,9 @@ exports.assignSubmissionID = function(user, problem, callback) {
     } else if (!committed) {
       callback('System error: submit problem');
     } else {
-      callback(false, data.val());
+      var index = ('0000' + parseInt(data.val())).slice(-5);
+      var name = index + '_' + user.name + '_' + problem.name;
+      callback(false, name);
     }
   });
 };

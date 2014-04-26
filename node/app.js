@@ -58,12 +58,6 @@ app.get('/controlpanel', routes.controlpanel);
 app.get('/round', routes.round);
 app.post('/submit', routes.submit);
 
-/*
- * Socket.IO
- */
-app.post('/preRound', socketio.preRound);
-app.post('/startRound', socketio.startRound);
-
 var server = http.createServer(app).listen(app.get('port'), function(){
     console.log("Express server listening on port " + app.get('port'));
 });
