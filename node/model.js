@@ -228,6 +228,30 @@ function roulettePartner(user, entry, callback) {
 }
 exports.roulettePartner = roulettePartner;
 
+exports.getTwitch = function(index, callback) {
+  fs.readFile('submissions/u_' + index, "utf8", function(err, data) {
+    callback(false, (err || !data) ? '' : data);
+  });
+}
+
+var twitchBroadcast = function() {};
+
+exports.setTwitchBroadcastFunction = function(func) {
+  twitchBroadcast = func;
+};
+
+exports.addTwitch = function(index, user, entry, callback) {
+  var userCount = root.child('twitch/' + index + '/' + user);
+  userCount.once('value', function(countSnapshot) {
+    var count = countSnapshot.val();
+    userCount.set(count ? count + 1 : 1);
+    fs.appendFile('submissions/u_' + index, entry + '\n', function() {
+      twitchBroadcast(index);
+      callback();
+    });
+  });
+}
+
 // callback(error)
 exports.process = function(params, callback) {
   // Code Golf: set up score
