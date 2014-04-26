@@ -17,7 +17,7 @@ exports.router = function(req, res, next) {
       }
     });
   } else {
-    var publicURLs = ['register', 'login', 'logout', 'rules'];
+    var publicURLs = ['register', 'login', 'logout', 'rules', 'firstlogin'];
     if (publicURLs.indexOf(page) != -1) {
       next();
     } else {

@@ -45,7 +45,7 @@ app.post('/login', passport.authenticate('local', {
     failureRedirect: '/login'
 }));
 app.post('/firstlogin', passport.authenticate('local', {
-    successRedirect: '/rules',
+    successRedirect: '/home',
     failureRedirect: '/login'  // should never fail
 }));
 app.get('/logout', routes.logout);

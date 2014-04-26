@@ -16,7 +16,7 @@ function log(message) {
 // callback(error, message)
 exports.register = function(username, password, callback) {
   root.child('users').once('value', function(usersSnapshot) {
-    if (!usersSnapshot.hasChild(username)) {
+    if (usersSnapshot.hasChild(username)) {
       callback('That team name already exists.');
     } else {
       usersSnapshot.child(username).ref().set({
