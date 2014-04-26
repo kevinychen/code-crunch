@@ -63,6 +63,9 @@ $(document).ready(function() {
   // Display time remaining
   window.setInterval(function() {
     var diff = Math.max(0, endTime - new Date());
+    if (diff === 0) {
+      $('.navnext').show();
+    }
     var min = Math.floor(diff / 60000);
     var sec = ('00' + (Math.floor(diff / 1000) % 60)).slice(-2);
     $('.miscinfo').text(min + ':' + sec);
