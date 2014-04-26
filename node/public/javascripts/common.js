@@ -53,7 +53,7 @@ $(document).ready(function() {
 
   // Submit problem
   $('.submit').on('click', function() {
-    var data = $('#editor').text();
+    var data = editor.getSession().getValue();
     $.post('/submit', {round: round, index: index, data: data, lang: lang},
       function(data) {
         $('.problemresults').html(data);
