@@ -54,6 +54,7 @@ $(document).ready(function() {
   // Submit problem
   $('.submit').on('click', function() {
     var data = editor.getSession().getValue();
+    $('.problemresults').html('Grading submission...');
     $.post('/submit', {round: round, index: index, data: data, lang: lang},
       function(data) {
         $('.problemresults').html(data);
@@ -90,8 +91,10 @@ $(document).ready(function() {
     $('.round').text(data.roundName);
     var html = '';
     for (var i = 0; i < data.problems.length; i++) {
-      html += '<li id="pselect' + i + '" class="pselect button">' +
+      if (data.problems[i]) {
+        html += '<li id="pselect' + i + '" class="pselect button">' +
     data.problems[i].name + '</li>';
+      }
     }
     $('#problems').html(html);
 

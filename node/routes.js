@@ -16,7 +16,7 @@ exports.register = function(req, res) {
     if (err) {
       res.render('register.ejs', {error: err});
     } else {
-      model.register(username, password, function(err, message) {
+      model.register(username, password, function(err) {
         if (err) {
           res.render('register.ejs', {error: err});
         } else {

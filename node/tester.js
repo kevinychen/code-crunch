@@ -74,14 +74,14 @@ Tester.prototype.testOne = function(
         command += 'python ' + path;
       }
       if (language === 'Java') {
-        command = 'cd ' + this.SUBMISSION_DIRECTORY + '; ' + command + '; cd -';
+        command = 'cd ' + this.SUBMISSION_DIRECTORY + '; ' + command + '; cd - > /dev/null';
       }
       exec(command, function(err, stdout, stderr) {
         if (err) {
           callback('Error in running program');
         } else if (stderr) {
           callback('Runtime error');
-        } else if (stdout.trim() != judgeInput.expected.trim()) {
+        } else if (stdout.trim() != String(judgeInput.expected).trim()) {
           callback('Incorrect output');
         } else {
           callback();
@@ -94,16 +94,20 @@ Tester.prototype.test = function(
       var counter = judgeInputs.length;
       var callbacked = false;
       for (var i = 0; i < judgeInputs.length; i++) {
-        this.testOne(submissionID, judgeInputs[i], language, function(err) {
-          if (!callbacked) {
-            if (err) {
-              callback(err);
-              callbacked = true;
-            } else if (--counter == 0) {
-              callback();
+        if (judgeInputs[i]) {
+          this.testOne(submissionID, judgeInputs[i], language, function(err) {
+            if (!callbacked) {
+              if (err) {
+                callback(err);
+                callbacked = true;
+              } else if (--counter == 0) {
+                callback();
+              }
             }
-          }
-        });
+          });
+        } else {
+          counter--;
+        }
       }
     }
 
