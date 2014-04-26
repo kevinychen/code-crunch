@@ -72,6 +72,12 @@ body {
   margin-top: 30px;
 }
 
+.problemresults {
+  font-family: MuseoSans;
+  font-size: 18px;
+  margin-top: 20px;
+}
+
 .iconpanel {
   margin-left: 62%;
   padding: 10px;

@@ -61,6 +61,8 @@ app.get('/round3', routes.round3);
 app.get('/round4', routes.round4);
 app.get('/round5', routes.round5);
 
+app.post('/submit', routes.submit);
+
 /*
  * Socket.IO
  */

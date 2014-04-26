@@ -50,6 +50,22 @@ exports.controlpanel = function(req, res) {
   res.render('controlpanel.ejs');
 };
 
+function judge(params, callback) {
+  // TODO: temporary. Change to functional judge.
+  callback();
+}
+
+exports.submit = function(req, res) {
+  judge({
+    user: req.user,
+    problemId: req.body.round + '-' + req.body.index,
+    data: req.body.data,
+    language: req.body.lang
+  }, function(err) {
+    res.json(err || 'Congratulations! You have solved the problem.');
+  });
+};
+
 exports.round1 = function(req, res) {
   res.render('round1.ejs', {user: req.user});
 };

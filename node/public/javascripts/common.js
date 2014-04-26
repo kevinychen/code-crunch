@@ -1,4 +1,6 @@
+index = -1;  // problem index
 lang = 'Java';
+cache = [];  // store problem index -> cached info (submission, results)
 $(document).ready(function() {
 
   // Toggle language buttons
@@ -6,6 +8,15 @@ $(document).ready(function() {
     $('.lang').attr('class', 'lang button');
     $(this).attr('class', 'lang buttonpressed');
     lang = $(this).text();
+  });
+
+  // Submit problem
+  $('.submit').on('click', function() {
+    var data = $('#editor').text();
+    $.post('/submit', {round: round, index: index, data: data, lang: lang},
+      function(data) {
+        $('.problemresults').html(data);
+      });
   });
 
   // Display time remaining
@@ -30,6 +41,8 @@ $(document).ready(function() {
     if (data.round !== round) {
       return;
     }
+
+    // Update problems list
     $('.round').text(data.roundName);
     var html = '';
     for (var i = 0; i < data.problems.length; i++) {
@@ -37,14 +50,29 @@ $(document).ready(function() {
     data.problems[i].name + '</li>';
     }
     $('#problems').html(html);
+
+    // Toggle problems
     $('.pselect').on('mousedown', function(e) {
+      // Save original state
+      cache[index] = cache[index] || {};
+      cache[index].trial = $('#editor').html();
+      cache[index].result = $('.problemresults').html();
+
+      // Change
       var id = e.target.id;
-      var index = parseInt(id.charAt(id.length - 1));  // lol, assume 1 digit
+      index = parseInt(id.charAt(id.length - 1));  // lol, assume 1 digit
       $('.problemname').html(data.problems[index].name);
       $('.problemdescription').html(data.problems[index].description);
+
+      // Recover new state
+      cache[index] = cache[index] || {};
+      $('#editor').text(cache[index].trial || '');
+      $('.problemresults').html(cache[index].result || '');
     });
   });
+
+  // Request server for round information
   socket.emit('round', {});
-  socket.emit('roundInfo', {round: 1});
+  socket.emit('roundInfo', {round: round});
 });
 
