@@ -1,0 +1,39 @@
+You're given an old fashioned rotary telephone with the digits 0-9 plus a * in clockwise order, for 11 total symbols on the circular dialer. To dial a number, 
+you put your finger on the number and rotate the wheel clockwise such that your finger is aligned with where the * used to be. Each piece of the rotation counts as 1 move.
+
+Example phone with number 0-3:
+
+  1 2
+0     3
+   *
+
+Dialing 1301:
+
+To dial 1 takes 3 moves.
+
+To dial 3 takes 1 move.
+
+To dial 0 takes 4 moves. 
+
+Dialing 1 again takes 3 moves for a total of 11 moves.
+
+However, if we move the * to a different spot:
+
+  1 *
+0     2
+   3
+
+The whole number now only takes 7 moves.
+
+Now, given a phone with 0-9 and a phone numbers (string of digits), print the
+minimum number of moves needed to dial the number with an optimal placement of *.
+
+The length of the string will be less than 100 characters.
+
+Input:
+
+0001
+
+Output:
+
+5

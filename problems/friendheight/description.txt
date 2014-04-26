@@ -1,0 +1,27 @@
+You are sick and tired of switchin from looking up to looking down at your friends. Height diversity sucks and you've
+determined to get rid of it. Given a pool of N candidates, you need to choose K of them
+such that the biggest height difference is minimized.
+
+K <= N <= 100
+H <= 1,000,000
+
+Input Format:
+N K
+H_1
+H_2
+...
+H_N
+
+Output Format:
+Minimized Height Difference
+
+Input:
+5 3
+7
+2
+4
+6
+9
+
+Output:
+3

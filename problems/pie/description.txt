@@ -1,0 +1,21 @@
+You like pie (or you do now). Your friends also like pie. You will eat an entire pie by yourself,
+but your friends have other preferences, either "quarter", "half", or "big" (meaning three quarters).
+Your friends are picky and want their piece of pie in a single slice or chunk.
+
+What is the fewest number of pies you need to order for your friends AND yourself.
+
+The first line of the input is N, where N is the number of friends.
+Each of the subsequent N lines will have a size.
+
+N <= 100
+
+Input:
+5
+quarter
+quarter
+half
+big
+big
+
+Output:
+4
