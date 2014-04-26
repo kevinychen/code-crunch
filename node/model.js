@@ -5,7 +5,7 @@ root.auth('Fw9Wx7TuSzL3OIr9kKMYoQoKeFHyxBMfleQeGGyY');
 
 // map from team name to last submission time
 var submissionTimeMap = Object();
-const MIN_SUBMISSION_DELAY_TIME = 10000;  // milliseconds
+const MIN_SUBMISSION_DELAY_TIME = 3000;  // milliseconds
 
 function log(message) {
   fs.appendFile('simplex.log', message);
@@ -128,18 +128,27 @@ exports.getProblem = function(problemId, callback) {
 
 // callback(error, submissionID)
 exports.assignSubmissionID = function(user, problem, callback) {
-  root.child('submissionID').transaction(function(submissionID) {
-    return submissionID + 1;
-  }, function(err, committed, data) {
-    if (err) {
-      callback(err);
-    } else if (!committed) {
-      callback('System error: submit problem');
+  root.child('users/' + user.name + '/submit').once('value', function(submitSnapshot) {
+    var now = new Date().valueOf();
+    var submitTime = submitSnapshot.val();
+    if (submitTime && now - submitTime < MIN_SUBMISSION_DELAY_TIME) {
+      callback('Too frequent submissions.');
     } else {
-      var index = ('0000' + parseInt(data.val())).slice(-5);
-      var name = index + '_' + user.name + '_' + problem.name;
-      callback(false, name);
-    }
+      submitSnapshot.ref().set(now);
+      root.child('submissionID').transaction(function(submissionID) {
+        return submissionID + 1;
+      }, function(err, committed, data) {
+        if (err) {
+          callback(err);
+        } else if (!committed) {
+          callback('System error: submit problem');
+        } else {
+          var index = ('0000' + parseInt(data.val())).slice(-5);
+          var name = index + '_' + user.name + '_' + problem.name;
+          callback(false, name);
+        }
+      });
+    };
   });
 };
 

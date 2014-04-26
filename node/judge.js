@@ -65,7 +65,7 @@ exports.judge = function(params, callback) {
     model.assignSubmissionID(params.user, params.problem,
         function(err, submissionID) {
           if (err) {
-            callback('Error incrementing submission counter');
+            callback(err);
           } else {
             params.submissionID = submissionID;
             preprocess();
