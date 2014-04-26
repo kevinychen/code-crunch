@@ -115,6 +115,17 @@ body {
 .main {
 }
 
+.main table {
+  font-family: MuseoSans;
+  font-size: 24px;
+}
+
+.main td {
+  padding: 5px;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
 #editor {
   margin-top: 30px;
   font-family: monospace;
