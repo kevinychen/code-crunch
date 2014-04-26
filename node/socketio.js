@@ -27,8 +27,8 @@ exports.setServer = function(server) {
   });
   thisio.sockets.on('connection', function(socket) {
     socket.on('roundInfo', function(data) {
-      model.canView(null, 'round', data.round, function(err) {
-        if (!err) {
+      model.canView(null, 'round', data, function(canView) {
+        if (canView) {
           model.getRound(data.round, function(err, round) {
             if (round && round.problems) {
               round.round = data.round;

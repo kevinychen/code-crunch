@@ -61,14 +61,28 @@ exports.getUser = function(username, callback) {
 // user: User
 // page: url, e.g. "problems"
 // params: {round: round #}
-// callback(error)
+// callback(canView)
 exports.canView = function(user, page, params, callback) {
   if (page !== 'round') {
+    callback(true);
+  } else if (!params.round || !params.round.toString().match(/^[0-9]$/)) {
     callback(false);
   } else {
-    root.child('canView').once('value', function(canViewSnapshot) {
-      callback(canViewSnapshot.val() >= params.round);
-    });
+    root.child('showtimes/' + params.round).once('value',
+        function(showtimeSnapshot) {
+          // Check that current time is later than round showtime.
+          var time = showtimeSnapshot.val();
+          if (!time) {  // showtime not listed; cannot view
+            callback(false);
+            return;
+          }
+          time = time.split(':');
+          var showtime = new Date(0, 0, 0, time[0], time[1], 0);
+          var now = new Date();
+          var nowtime = new Date(0, 0, 0, now.getHours(),
+            now.getMinutes(), now.getSeconds());
+          callback(nowtime >= showtime);
+        });
   }
 };
 
