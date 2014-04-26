@@ -9,7 +9,7 @@ exports.router = function(req, res, next) {
   var parts = req.url.split('/');
   var page = parts[1];  // first entry is null string
   if (req.user) {
-    model.canView(req.user, page, function(err) {
+    model.canView(req.user, page, req, function(err) {
       if (err) {
         res.type('txt').send('401 Not authorized');
       } else {

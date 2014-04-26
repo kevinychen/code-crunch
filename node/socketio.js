@@ -25,17 +25,18 @@ exports.setServer = function(server) {
   });
   thisio.sockets.on('connection', function(socket) {
     socket.on('roundInfo', function(data) {
-      // return round info
-      socket.emit('roundInfo', {
-        round: 1,
-        roundName: 'Speed Round',
-        problems: [{
-          name: 'Sum',
-          description: 'Add two numbers.'
-        }, {
-          name: 'Hard',
-          description: 'Guess the number I\'m thinking.<br/>It could be any number.'
-        }]
+      model.canView(null, 'round', data.round, function(err) {
+        if (!err) {
+          model.getRound(data.round, function(err, round) {
+            if (round && round.problems) {
+              round.round = data.round;
+              for (var problem in round.problems) {
+                delete round.problems[problem].judge;
+              }
+              socket.emit('roundInfo', round);
+            }
+          });
+        }
       });
     });
   });

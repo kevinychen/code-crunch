@@ -1,8 +1,11 @@
 var fs = require('fs');
+var Firebase = require('firebase');
+var root = new Firebase('https://code-crunch.firebaseIO.com');
+root.auth('Fw9Wx7TuSzL3OIr9kKMYoQoKeFHyxBMfleQeGGyY');
 
 // map from team name to last submission time
 var submissionTimeMap = Object();
-const MIN_SUBMISSION_DELAY_TIME = 30000;  // milliseconds
+const MIN_SUBMISSION_DELAY_TIME = 10000;  // milliseconds
 
 function log(message) {
   fs.appendFile('simplex.log', message);
@@ -12,60 +15,133 @@ function log(message) {
 // password: "password"
 // callback(error, message)
 exports.register = function(username, password, callback) {
-  // TODO
+  root.child('users').once('value', function(usersSnapshot) {
+    if (!usersSnapshot.hasChild(username)) {
+      callback('That team name already exists.');
+    } else {
+      usersSnapshot.child(username).ref().set({
+        password: password,
+        score: 0
+      });
+      callback();
+    }
+  });
 };
 
 // username: "user1"
 // password: "password"
 // callback(error)
 exports.validateRegistration = function(username, password, callback) {
-  // TODO
-  callback(false);
+  if (!username) {
+    callback('No username provided.');
+  } else if (!username.match(/^[A-Za-z][A-Za-z0-9_]*$/)) {
+    callback('Invalid username.');
+  } else {
+    callback();
+  }
 };
 
 // username: "user1"
 // callback(error, [user object])
 exports.getUser = function(username, callback) {
-  // TODO
-  callback(false, {name: 'kyc', password: 'code'});
-  return;
-  callback('No user found.');
+  root.child('users').once('value', function(usersSnapshot) {
+    if (!usersSnapshot.hasChild(username)) {
+      callback('No user found.');
+    } else {
+      var userSnapshot = usersSnapshot.child(username);
+      callback(false, {
+        name: userSnapshot.name(),
+        password: userSnapshot.val().password,
+        score: userSnapshot.val().score
+      });
+    }
+  });
 };
 
 // user: User
 // page: url, e.g. "problems"
+// params: {round: round #}
 // callback(error)
-exports.canView = function(user, page, callback) {
-  // TODO
-  callback(false);
+exports.canView = function(user, page, params, callback) {
+  if (page !== 'round') {
+    callback(false);
+  } else {
+    root.child('canView').once('value', function(canViewSnapshot) {
+      callback(canViewSnapshot.val() >= params.round);
+    });
+  }
 };
 
 // callback(error)
 exports.isRunning = function(callback) {
-  // TODO
-  callback(true);
+  root.child('isRunning').once('value', function(isRunningSnapshot) {
+    callback(isRunningSnapshot.val());
+  });
 };
+
+// callback(error, [round object])
+exports.getRound = function(roundId, callback) {
+  root.child('rounds/' + roundId).once('value', function(roundSnapshot) {
+    callback(false, roundSnapshot.val());
+  });
+}
 
 // callback(error, [problem object])
 exports.getProblem = function(problemId, callback) {
-  // TODO
-  callback(false, {problemId: '1-1'});
+  var parts = problemId.split('-');
+  root.child('rounds/' + parts[0] + '/problems/' + parts[1]).once('value',
+      function(problemSnapshot) {
+        var problem = problemSnapshot.val();
+        problem.name = problemSnapshot.name();
+        problem.round = parts[0];
+        problem.id = parts[1];
+        callback(false, problem);
+      });
 };
 
 // callback(error, submissionID)
 exports.assignSubmissionID = function(user, problem, callback) {
-  // TODO
-  callback(false, 1);
+  root.child('submissionID').transaction(function(submissionID) {
+    return submissionID + 1;
+  }, function(err, committed, data) {
+    if (err) {
+      callback(err);
+    } else if (!committed) {
+      callback('System error: submit problem');
+    } else {
+      callback(false, data.val());
+    }
+  });
 };
 
 // callback(error, [list of judge inputs])
 exports.getJudgeInputs = function(problem, callback) {
-  // TODO
-  callback(false, [{input: '1 2', expected: '3'}]);
+  root.child('rounds/' + problem.round + '/problems/' + problem.id + '/judge')
+    .once('value', function(judgeSnapshot) {
+      callback(false, judgeSnapshot.val());
+    });
 };
 
 // callback(error)
 exports.solveProblem = function(user, problem, callback) {
-  // TODO
-  callback();
+  var userRef = root.child('users/' + user.name);
+  var solvedRef = userRef.child('solved/' + problem.round + '-' + problem.id);
+  solvedRef.on('value', function(solved) {
+    if (solved) {
+      callback();
+    } else {
+      solvedRef.set(true);
+      userRef.child('score').transaction(function(score) {
+        return score + problem.value;
+      }, function(err, committed, data) {
+        if (err) {
+          callback(err);
+        } else if (!committed) {
+          callback('System error: submit problem');
+        } else {
+          callback(false);
+        }
+      });
+    }
+  });
 };

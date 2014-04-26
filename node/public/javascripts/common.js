@@ -54,6 +54,7 @@ $(document).ready(function() {
   // Submit problem
   $('.submit').on('click', function() {
     var data = editor.getSession().getValue();
+    $('.problemresults').html('Grading submission...');
     $.post('/submit', {round: round, index: index, data: data, lang: lang},
       function(data) {
         $('.problemresults').html(data);
@@ -63,6 +64,9 @@ $(document).ready(function() {
   // Display time remaining
   window.setInterval(function() {
     var diff = Math.max(0, endTime - new Date());
+    if (diff === 0) {
+      $('.navnext').show();
+    }
     var min = Math.floor(diff / 60000);
     var sec = ('00' + (Math.floor(diff / 1000) % 60)).slice(-2);
     $('.miscinfo').text(min + ':' + sec);
@@ -87,8 +91,10 @@ $(document).ready(function() {
     $('.round').text(data.roundName);
     var html = '';
     for (var i = 0; i < data.problems.length; i++) {
-      html += '<li id="pselect' + i + '" class="pselect button">' +
+      if (data.problems[i]) {
+        html += '<li id="pselect' + i + '" class="pselect button">' +
     data.problems[i].name + '</li>';
+      }
     }
     $('#problems').html(html);
 
