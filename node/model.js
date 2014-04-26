@@ -194,7 +194,7 @@ exports.roulettePartner = function(user, entry, callback) {
 
     var users = usersSnapshot.val();
     var partner = null;
-    if (!users[user].roulette) {
+    if (!users[user].roulette || !users[user].roulette.partner) {
       // If no partner, find one.
       for (var other in users) {
         if (other != user && !users[other].roulette) {
@@ -214,14 +214,15 @@ exports.roulettePartner = function(user, entry, callback) {
         callback('You have no partner.');
         return;
       }
+      callback(false, partner, false, undefined);
     } else {
       partner = users[user].roulette.partner;
-    }
-    if (users[partner]) {
       var partnerData = users[partner].roulette;
-      callback(false, partner, partnerData.parity, partnerData.entry);
-    } else {
-      callback('You have no partner.');
+      if (partnerData) {
+        callback(false, partner, partnerData.parity, partnerData.entry);
+      } else {
+        callback(false, partner, false, undefined);
+      }
     }
   });
 }
