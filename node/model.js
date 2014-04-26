@@ -21,7 +21,7 @@ exports.register = function(username, password, callback) {
 exports.validateRegistration = function(username, password, callback) {
   // TODO
   callback(false);
-}
+};
 
 // username: "user1"
 // callback(error, [user object])
@@ -43,5 +43,29 @@ exports.canView = function(user, page, callback) {
 // callback(error)
 exports.isRunning = function(callback) {
   // TODO
-  callback(false);
-}
+  callback(true);
+};
+
+// callback(error, [problem object])
+exports.getProblem = function(problemId, callback) {
+  // TODO
+  callback(false, {problemId: '1-1'});
+};
+
+// callback(error, submissionID)
+exports.assignSubmissionID = function(user, problem, callback) {
+  // TODO
+  callback(false, 1);
+};
+
+// callback(error, [list of judge inputs])
+exports.getJudgeInputs = function(problem, callback) {
+  // TODO
+  callback(false, [{input: '1 2', expected: '3'}]);
+};
+
+// callback(error)
+exports.solveProblem = function(user, problem, callback) {
+  // TODO
+  callback();
+};

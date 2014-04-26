@@ -1,4 +1,5 @@
 var model = require('./model');
+var judge = require('./judge').judge;
 
 exports.preregister = function(req, res) {
   res.render('register.ejs', {error: ''});
@@ -49,11 +50,6 @@ exports.controlpanel = function(req, res) {
   // TODO only allow admin access
   res.render('controlpanel.ejs');
 };
-
-function judge(params, callback) {
-  // TODO: temporary. Change to functional judge.
-  callback();
-}
 
 exports.submit = function(req, res) {
   judge({
