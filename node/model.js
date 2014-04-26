@@ -155,11 +155,15 @@ exports.getJudgeInputs = function(problem, callback) {
 exports.solveProblem = function(user, problem, callback) {
   var userRef = root.child('users/' + user.name);
   var solvedRef = userRef.child('solved/' + problem.round + '-' + problem.id);
-  solvedRef.on('value', function(solved) {
-    if (solved) {
+  solvedRef.on('value', function(solvedSnapshot) {
+    var solved = solvedSnapshot.val();
+    if (solved && solved >= problem.value) {
       callback();
     } else {
-      solvedRef.set(true);
+      if (solved) {
+        problem.value -= solved;
+      }
+      solvedRef.set(problem.value);
       userRef.child('score').transaction(function(score) {
         return score + problem.value;
       }, function(err, committed, data) {
@@ -254,6 +258,8 @@ exports.addTwitch = function(index, user, entry, callback) {
 
 // callback(error)
 exports.process = function(params, callback) {
+  params.problem.score = params.problem.score || 10;
+
   // Code Golf: set up score
   if (params.problem.round == 2) {
     params.problem.score -= params.data.length;
