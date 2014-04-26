@@ -137,6 +137,11 @@ $(document).ready(function() {
     });
   }
 
+  // If Code Roulette, change Ace editor background
+  if (round == 4) {
+    $('.ace_text-layer').addClass('roulette');
+  }
+
   // Request server for round information
   socket.emit('round', {});
   socket.emit('roundInfo', {round: round});

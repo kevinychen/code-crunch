@@ -208,3 +208,8 @@ body {
 .highlight {
   background-color: red;
 }
+
+.roulette {
+  background: url('../images/roulette.png') repeat-x left top;
+  background-position: 4px 0px;
+}
