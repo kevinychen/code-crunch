@@ -51,8 +51,13 @@ exports.setServer = function(server) {
   thisio.sockets.on('connection', function(socket) {
     socket.on('roulette', function(data) {
       model.roulettePartner(data.user, data.entry,
-        function(err, parity, partnerEntry) {
-          socket.emit('roulettetext', {parity: parity, entry: partnerEntry});
+        function(err, partner, parity, partnerEntry) {
+          socket.emit('roulettetext', {
+            error: err,
+            parity: parity,
+            partner: partner,
+            entry: partnerEntry
+          });
         });
     });
   });

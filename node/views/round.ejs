@@ -41,8 +41,8 @@
             </div>
             <div class="problemresults">
             </div>
-            <% if (round === 3) { %>
-            <div class="patented">
+            <% if (round == 3 || round == 4) { %>
+            <div class="notification">
             </div>
             <% } %>
           </div>
@@ -52,7 +52,7 @@
             </div>
             <div class="miscinfo">
             </div>
-            <% if (round === 2) { %>
+            <% if (round == 2) { %>
             <div class="golfcount">
             </div>
             <% } %>
@@ -68,7 +68,7 @@
                 <li class="lang button">C++</li>
                 <li class="lang button">Python</li>
               </ul>
-              <% if (round !== 0) { %>
+              <% if (round != 0) { %>
               <div class="submit button">Submit</div>
               <% } %>
             </div>

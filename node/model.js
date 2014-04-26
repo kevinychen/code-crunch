@@ -186,9 +186,44 @@ exports.setInvalids = function(patents) {
 }
 
 // Save user entry, get partner entry
-// callback(error, parity, entry)
+// callback(error, partner, parity, entry)
 exports.roulettePartner = function(user, entry, callback) {
-  callback(false, 1, 'Hello, do you see me\nWeird!');
+  root.child('users').once('value', function(usersSnapshot) {
+    // Save own entry.
+    usersSnapshot.child(user + '/roulette/entry').ref().set(entry);
+
+    var users = usersSnapshot.val();
+    var partner = null;
+    if (!users[user].roulette) {
+      // If no partner, find one.
+      for (var other in users) {
+        if (other != user && !users[other].roulette) {
+          partner = other;
+          usersSnapshot.child(user + '/roulette').ref().set({
+            partner: other,
+            parity: false
+          });
+          usersSnapshot.child(other + '/roulette').ref().set({
+            partner: user,
+            parity: true
+          });
+          break;
+        }
+      }
+      if (!partner) {
+        callback('You have no partner.');
+        return;
+      }
+    } else {
+      partner = users[user].roulette.partner;
+    }
+    if (users[partner]) {
+      var partnerData = users[partner].roulette;
+      callback(false, partner, partnerData.parity, partnerData.entry);
+    } else {
+      callback('You have no partner.');
+    }
+  });
 }
 
 // callback(error)

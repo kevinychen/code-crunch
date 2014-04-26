@@ -83,9 +83,9 @@ $(document).ready(function() {
     // If Code Patent, show invalid patent substrings
     if (round === 3) {
       if (invalids.length > 0) {
-        $('.patented').text('PATENTED: [' + invalids + ']');
+        $('.notification').text('PATENTED: [' + invalids + ']');
       } else {
-        $('.patented').text('');
+        $('.notification').text('');
       }
     }
   }, 1000);
@@ -147,6 +147,13 @@ $(document).ready(function() {
       });
     }, 5000);
     socket.on('roulettetext', function(data) {
+      if (data.error) {
+        $('.notification').html(data.error);
+        return;
+      }
+      if (!data.entry) {
+        return;
+      }
       var text = editor.getSession().getValue().split('\n');
       var other = data.entry.split('\n');
       var newText = '';
@@ -169,7 +176,10 @@ $(document).ready(function() {
           i2 += 2;
         }
       }
+      var origPosition = editor.getCursorPosition();
       editor.setValue(newText);
+      editor.moveCursorToPosition(origPosition);
+      editor.clearSelection();
     });
   }
 
