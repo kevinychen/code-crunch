@@ -106,7 +106,6 @@ exports.getProblem = function(problemId, callback) {
   root.child('rounds/' + parts[0] + '/problems/' + parts[1]).once('value',
       function(problemSnapshot) {
         var problem = problemSnapshot.val();
-        problem.name = problemSnapshot.name();
         problem.round = parts[0];
         problem.id = parts[1];
         callback(false, problem);
@@ -123,7 +122,9 @@ exports.assignSubmissionID = function(user, problem, callback) {
     } else if (!committed) {
       callback('System error: submit problem');
     } else {
-      callback(false, data.val());
+      var index = ('0000' + parseInt(data.val())).slice(-5);
+      var name = index + '_' + user.name + '_' + problem.name;
+      callback(false, name);
     }
   });
 };
