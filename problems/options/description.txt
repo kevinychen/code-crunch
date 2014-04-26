@@ -1,0 +1,24 @@
+You're a TA for 18.314159, Intro to Arithmetic. For the final exam, you 
+want to test your students on their ability do perform basic arithmetic.
+
+The question format will be:
+
+d1 _ d2 _ d3 _ d4 _ d5 = ?
+
+Where d1-5 are digits and the blanks can be filled with one of +, -, *. The
+students fill in the blanks and then do the arithmetic, writing down the answer they obtained.
+
+TA's want to minimize grading work, so for given digits, find out how many unique answers
+are possible. Standard order of operations applies.
+
+
+Input:
+
+1 _ 1 _ 0 _ 0 _ 0
+
+Output:
+
+3
+
+
+Explanation: The possible results are 0, 1, and 2.
