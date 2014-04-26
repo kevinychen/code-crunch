@@ -1,0 +1,41 @@
+There are two elevators in Next house. During CPW, prefrosh will be wandering the halls of Next. At the end
+of CPW, our job is to round them all up and send them home. To do this, we have the elevators pick up prefrosh, 
+but never drop any (assume we have really BIG elevators). Don't worry, they'll be released at the end of the day.
+However, you should worry about how to minimize total elevator movement because heavy elevators take a lot of energy to move.
+
+You're given the schedule of floors that need to be reached. Only one elevator needs to be sent to a given floor for
+a request. Print the minimum total floors that both elevators need to move. If an elevator is already there, you don't
+need to do anything.
+
+Both elevators start at floor 1. There are 5 floors in Next (??), numbered 1-5.
+
+Input Format:
+N (number of requests < 1000)
+f1 (floors)
+f2
+f3
+...
+fN
+
+Output Format:
+Minimum Movement
+
+Example:
+
+Input:
+5
+1
+3
+1
+4
+2
+
+Output:
+4
+
+Explanation:
+1 - no need to do anything +0
+3 - move one elevator to floor 3, +2
+1 - no need to do anything +0
+4 - move elevator from 3 to 4, +1
+2 - move elevator from 1 to 2, +1
