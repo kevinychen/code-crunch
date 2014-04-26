@@ -108,7 +108,6 @@ body {
   width: calc(62% + 250px);
   height: 60%;
   resize: none;
-  background: #f4f4f4;
   border: solid 1px #cecece;
   border-radius: 0.35em;
   transition: background-color 0.15s ease-in-out;

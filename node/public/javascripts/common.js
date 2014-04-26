@@ -1,13 +1,54 @@
 index = -1;  // problem index
-lang = 'Java';
+lang = '';
 cache = [];  // store problem index -> cached info (submission, results)
+var editor;
+
+var javaString = "import java.util.*;\nimport java.io.*;\n\npublic class Main {\n\npublic static void main (String[] args) throws IOException {\n//your code here\n}\n}";
+var cppString = "#include <stdio.h>\n#include <stdlib.h>\n#include <iostream>\n#include <math.h>\n#include <string.h>\n#include <algorithm>\n#include <vector>\n\nusing namespace std;\n\nint main() {\n\n//your code here\n\n}";
+var pythonString = "#no boilerplate, your code goes here";
+
+function toggle(i, language) {
+  // Toggle editor
+  cache[index] = cache[index] || {};
+  cache[index][lang] = editor.getValue();
+  cache[index].result = $('.problemresults').html();
+
+  index = i;
+  lang = language;
+  cache[index] = cache[index] || {};
+
+  // Change language
+  if (lang === 'Java') {
+    editor.setValue(cache[index][lang] || javaString);
+    editor.getSession().setMode('ace/mode/java');
+  } else if (lang === 'C++') {
+    editor.setValue(cache[index][lang] || cppString);
+    editor.getSession().setMode('ace/mode/c_cpp');
+  } else if (lang === 'Python') {
+    editor.setValue(cache[index][lang] || pythonString);
+    editor.getSession().setMode('ace/mode/python');
+  }
+
+  // Change index
+  $('.problemname').html(cache[index].name);
+  $('.problemdescription').html(cache[index].description);
+
+  // Recover new state
+  $('.problemresults').html(cache[index].result || '');
+}
+
 $(document).ready(function() {
+
+  // Style the editor
+  editor = ace.edit('editor');
+  editor.setTheme('ace/theme/monokai');
+  toggle(-1, 'Java');
 
   // Toggle language buttons
   $('.lang').on('mousedown', function() {
     $('.lang').attr('class', 'lang button');
     $(this).attr('class', 'lang buttonpressed');
-    lang = $(this).text();
+    toggle(index, $(this).text());
   });
 
   // Submit problem
@@ -53,21 +94,12 @@ $(document).ready(function() {
 
     // Toggle problems
     $('.pselect').on('mousedown', function(e) {
-      // Save original state
-      cache[index] = cache[index] || {};
-      cache[index].trial = $('#editor').html();
-      cache[index].result = $('.problemresults').html();
-
-      // Change
       var id = e.target.id;
-      index = parseInt(id.charAt(id.length - 1));  // lol, assume 1 digit
-      $('.problemname').html(data.problems[index].name);
-      $('.problemdescription').html(data.problems[index].description);
-
-      // Recover new state
-      cache[index] = cache[index] || {};
-      $('#editor').text(cache[index].trial || '');
-      $('.problemresults').html(cache[index].result || '');
+      var newIndex = parseInt(id.charAt(id.length - 1));
+      cache[newIndex] = cache[newIndex] || {};
+      cache[newIndex].name = data.problems[newIndex].name;
+      cache[newIndex].description = data.problems[newIndex].description;
+      toggle(newIndex, lang);
     });
   });
 

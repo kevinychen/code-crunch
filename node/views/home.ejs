@@ -4,6 +4,7 @@
         <script>endTime = 0; round = 0;</script>
         <script type="text/javascript" src="javascripts/coolclock.js"></script>
         <script type="text/javascript" src="javascripts/moreskins.js"></script>
+        <script src="javascripts/ace-build/src-noconflict/ace.js"></script>
         <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
     </head>
     <body>
@@ -23,7 +24,9 @@
               WELCOME, <%= user.name %>!
             </div>
             <div class="problemdescription">
-              When the contest begins, press the "Next" button to continue.
+              When the contest begins, press the "Next" button to continue.<br/>
+              <br/>
+              For now, feel free to play around with the editor below.
             </div>
           </div>
           <div class="iconpanel">
@@ -36,7 +39,6 @@
         </div>
         <div class="main">
           <div id="editor" contenteditable>
-            You will be able to edit here in each round. Play around if you like.
           </div>
           <div class="submitarea">
             <div class="submitbar">
