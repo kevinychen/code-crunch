@@ -147,6 +147,18 @@ body {
   text-align: center;
 }
 
+.submitentry {
+  font-family: MuseoSans;
+  float: left;
+  margin-left: 5px;
+  width: 100%;
+}
+
+#proposal {
+  font-size: 18px;
+  width: 100%;
+}
+
 .submit {
   float: right;
   min-width: 150px;

@@ -183,6 +183,18 @@ $(document).ready(function() {
     });
   }
 
+  // If Twitch Codes, modify editor
+  if (round == 5) {
+    editor.setReadOnly(true);
+    $('#proposal').focus();
+    $('#proposal').on('keypress', function(e) {
+      if (e.which == 13) {
+        console.log("submitting " + $(this).val());
+      }
+    });
+    toggle(index, 'Python');
+  }
+
   // Request server for round information
   socket.emit('round', {});
   socket.emit('roundInfo', {round: round});
