@@ -187,7 +187,7 @@ exports.setInvalids = function(patents) {
 
 // Save user entry, get partner entry
 // callback(error, partner, parity, entry)
-exports.roulettePartner = function(user, entry, callback) {
+function roulettePartner(user, entry, callback) {
   root.child('users').once('value', function(usersSnapshot) {
     // Save own entry.
     usersSnapshot.child(user + '/roulette/entry').ref().set(entry);
@@ -226,6 +226,7 @@ exports.roulettePartner = function(user, entry, callback) {
     }
   });
 }
+exports.roulettePartner = roulettePartner;
 
 // callback(error)
 exports.process = function(params, callback) {
@@ -242,6 +243,39 @@ exports.process = function(params, callback) {
         return;
       }
     }
+  }
+
+  // Code Roulette: ensure the solution is a combination of both users
+  if (params.problem.round == 4) {
+    roulettePartner(params.user.name, params.data,
+        function(err, partner, parity, partnerEntry) {
+          // Ew, complete duplication of this code
+          var text = params.data.split('\n');
+          var other = partnerEntry.split('\n');
+          var newText = '';
+          // combine the texts
+          for (var line = 0; line < text.length || line < other.length; line++) {
+            if (line > 0) {
+              newText += '\n';
+            }
+            var l1 = text[line] || '', l2 = other[line] || '';
+            var i1 = 0, i2 = 0;
+            while (i1 < l1.length || i2 < l2.length) {
+              if (parity) {
+                newText += l1[i1] || ' ';
+                newText += l2[i2 + 1] || ' ';
+              } else {
+                newText += l2[i2] || ' ';
+                newText += l1[i1 + 1] || ' ';
+              }
+              i1 += 2;
+              i2 += 2;
+            }
+          }
+          params.data = newText;
+          callback();
+          return;
+        });
   }
 
   callback();

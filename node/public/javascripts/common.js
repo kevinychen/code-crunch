@@ -56,6 +56,14 @@ $(document).ready(function() {
   $('.submit').on('click', function() {
     var data = editor.getSession().getValue();
     $('.problemresults').html('Grading submission...');
+    // If Code Roulette, sync right before submitting
+    // (server double checks this anyway)
+    if (round === 4) {
+      socket.emit('roulette', {
+        user: user,
+        entry: editor.getSession().getValue()
+      });
+    }
     $.post('/submit', {round: round, index: index, data: data, lang: lang},
       function(data) {
         $('.problemresults').html(data);
