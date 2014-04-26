@@ -185,6 +185,12 @@ exports.setInvalids = function(patents) {
   invalids = patents;
 }
 
+// Save user entry, get partner entry
+// callback(error, parity, entry)
+exports.roulettePartner = function(user, entry, callback) {
+  callback(false, 1, 'Hello, do you see me\nWeird!');
+}
+
 // callback(error)
 exports.process = function(params, callback) {
   // Code Golf: set up score

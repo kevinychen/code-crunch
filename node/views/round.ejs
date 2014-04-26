@@ -29,10 +29,14 @@
               WELCOME, <%= user.name %>!
             </div>
             <div class="problemdescription">
-              <% if (round === 0) { %>
+              <% if (round == 0) { %>
               When the contest begins, press the "Next" button to continue.<br/>
               <br/>
               For now, feel free to play around with the editor below.
+              <% } else if (round == 4) { %>
+              Hint: you can keep some sanity by staying in Insert mode.<br/>
+              <br/>
+              Ctrl+Z is also your friend, but keep your partner in mind too.
               <% } %>
             </div>
             <div class="problemresults">

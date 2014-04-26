@@ -140,6 +140,37 @@ $(document).ready(function() {
   // If Code Roulette, change Ace editor background
   if (round == 4) {
     $('.ace_text-layer').addClass('roulette');
+    window.setInterval(function() {
+      socket.emit('roulette', {
+        user: user,
+        entry: editor.getSession().getValue()
+      });
+    }, 5000);
+    socket.on('roulettetext', function(data) {
+      var text = editor.getSession().getValue().split('\n');
+      var other = data.entry.split('\n');
+      var newText = '';
+      // combine the texts
+      for (var line = 0; line < text.length || line < other.length; line++) {
+        if (line > 0) {
+          newText += '\n';
+        }
+        var l1 = text[line] || '', l2 = other[line] || '';
+        var i1 = 0, i2 = 0;
+        while (i1 < l1.length || i2 < l2.length) {
+          if (data.parity) {
+            newText += l1[i1] || ' ';
+            newText += l2[i2 + 1] || ' ';
+          } else {
+            newText += l2[i2] || ' ';
+            newText += l1[i1 + 1] || ' ';
+          }
+          i1 += 2;
+          i2 += 2;
+        }
+      }
+      editor.setValue(newText);
+    });
   }
 
   // Request server for round information
